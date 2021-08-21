@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Card, CardContent } from "semantic-ui-react";
 
 export const App = () => {
   const [countries, setCountries] = useState([]);
+
   useEffect(() => getCountries(), []);
 
   async function getCountries() {
@@ -12,13 +14,13 @@ export const App = () => {
     setCountries(data.results);
   }
 
-  console.log(countries);
-
   return (
-    <div>
+    <>
       {countries.map((country) => (
-        <p>{country.name}</p>
+        <Card key={country.code}>
+          <CardContent>{country.name}</CardContent>
+        </Card>
       ))}
-    </div>
+    </>
   );
 };
