@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
 
-function App() {
+export const App = () => {
+  const [countries, setCountries] = useState([]);
+  useEffect(() => getCountries(), []);
+
+  async function getCountries() {
+    const countryURL = "https://docs.openaq.org/v2/countries";
+
+    const response = await fetch(countryURL);
+    const data = await response.json();
+    setCountries(data.results);
+  }
+
+  console.log(countries);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {countries.map((country) => (
+        <p>{country.name}</p>
+      ))}
     </div>
   );
-}
-
-export default App;
+};
