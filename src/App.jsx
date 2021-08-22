@@ -3,11 +3,10 @@ import {
   Card,
   CardContent,
   CardGroup,
-  Dimmer,
-  Loader,
+  Input,
   Segment,
 } from "semantic-ui-react";
-import { CityCard } from "./CityCard/CityCard";
+import { CityCard } from "./components/CityCard/CityCard";
 
 export const App = () => {
   const [countries, setCountries] = useState([0]);
@@ -19,7 +18,8 @@ export const App = () => {
 
     const response = await fetch(countryURL);
     const data = await response.json();
-    setCountries(data.results);
+    const dataFilter = data.results.filter((point) => point.cities > 0);
+    setCountries(dataFilter);
   }
 
   return (
@@ -33,20 +33,12 @@ export const App = () => {
         <CardGroup centered>
           <Card>
             <CardContent>
-              <Segment padded="very" vertical>
-                <Dimmer active inverted>
-                  <Loader inverted>Loading</Loader>
-                </Dimmer>
-              </Segment>
+              <Input loading size="large" placeholder="Loading Countries..." />
             </CardContent>
           </Card>
           <Card>
             <CardContent>
-              <Segment padded="very" vertical>
-                <Dimmer active inverted>
-                  <Loader inverted>Loading</Loader>
-                </Dimmer>
-              </Segment>
+              <Input loading size="large" placeholder="Loading Countries..." />
             </CardContent>
           </Card>
         </CardGroup>
