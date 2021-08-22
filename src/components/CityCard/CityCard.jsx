@@ -5,6 +5,7 @@ import {
   CardHeader,
   Divider,
   Input,
+  Segment,
 } from "semantic-ui-react";
 import { MeasureCard } from "../MeasureCard/MeasureCard";
 
@@ -12,7 +13,7 @@ export const CityCard = ({ countryList }) => {
   const [cities, setCities] = useState([]);
   const [countryCode, setCountryCode] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [measurements, setMeasurements] = useState({});
+  const [measurements, setMeasurements] = useState();
 
   async function getCities(code) {
     const citiesURL = `https://docs.openaq.org/v2/cities?limit=10000&sort=asc&country=${code}&order_by=city`;
@@ -23,13 +24,14 @@ export const CityCard = ({ countryList }) => {
   }
 
   async function getMeasurements(country, city) {
-    const measurementsURL = `https://docs.openaq.org/v2/measurements?date_from=2000-01-01&date_to=2021-08-22&limit=100&sort=desc&radius=1000&sort=desc&radius=1000&country=${countryCode}&city=${selectedCity}&order_by=datetime`;
+    const measurementsURL = `https://docs.openaq.org/v2/measurements?date_from=2000-01-01&date_to=2021-08-22&limit=50&sort=desc&radius=1000&sort=desc&radius=1000&country=${country}&city=${city}&order_by=datetime`;
 
     const response = await fetch(measurementsURL);
     const data = await response.json();
-    setMeasurements(data.results);
-    console.log(data.results);
+    await setMeasurements(data.results);
   }
+
+  console.log(measurements);
 
   const countryHandler = (event) => {
     let doesExist = false;
@@ -110,7 +112,11 @@ export const CityCard = ({ countryList }) => {
           {selectedCity.length > 0 && (
             <>
               <Divider />
-              <MeasureCard measurements={measurements} />
+              {measurements !== undefined ? (
+                <MeasureCard measurements={measurements} />
+              ) : (
+                <Segment color="red">Measurements Not Found</Segment>
+              )}
             </>
           )}
         </CardHeader>

@@ -26,8 +26,8 @@ export const App = () => {
     <Segment padded="very" vertical>
       {countries[0] !== 0 ? (
         <CardGroup centered>
-          <CityCard key={"one"} countryList={countries} />
-          <CityCard key={"two"} countryList={countries} />
+          <CityCard key="one" countryList={countries} />
+          <CityCard key="two" countryList={countries} />
         </CardGroup>
       ) : (
         <CardGroup centered>
