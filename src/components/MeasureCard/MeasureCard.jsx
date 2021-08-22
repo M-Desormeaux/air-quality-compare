@@ -32,13 +32,27 @@ export const MeasureCard = ({ measurements }) => {
 
   const filteredArray = measureArray.filter((index) => index !== undefined);
 
+  const formatParam = (param) => {
+    if (parseInt(param.slice(-1)) && param.slice(0, 2) !== "pm") {
+      return (
+        <>
+          {param.slice(0, param.length - 1).toUpperCase()}
+          <sub>{param.slice(-1)}</sub>
+        </>
+      );
+    } else if (param.toLowerCase() === "pm25") {
+      return "PM2.5";
+    }
+    return param.toUpperCase();
+  };
+
   return (
     <Segment color="brown">
       Pollutants:
       <br />
       {filteredArray.map((x) => (
         <Segment vertical key={JSON.stringify(x)}>
-          <h4>{x.parameter}</h4>
+          <h4>{formatParam(x.parameter)}</h4>
           <p>{`${x.value} ${x.unit}`}</p>
         </Segment>
       ))}
