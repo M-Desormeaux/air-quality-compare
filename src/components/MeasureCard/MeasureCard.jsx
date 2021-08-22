@@ -32,14 +32,12 @@ export const MeasureCard = ({ measurements }) => {
 
   const filteredArray = measureArray.filter((index) => index !== undefined);
 
-  console.log(measureArray);
-
   return (
     <Segment color="brown">
       Parameters:
       <br />
       {filteredArray.map((x) => (
-        <p>{x.parameter}</p>
+        <p key={JSON.stringify(x)}>{x.parameter}</p>
       ))}
     </Segment>
   );

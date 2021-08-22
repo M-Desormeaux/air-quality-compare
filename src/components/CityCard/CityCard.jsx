@@ -9,18 +9,27 @@ import {
 } from "semantic-ui-react";
 import { MeasureCard } from "../MeasureCard/MeasureCard";
 
-export const CityCard = ({ countryList }) => {
+export const CityCard = ({ countryList, id }) => {
+  const [i, setI] = useState(0);
   const [cities, setCities] = useState([]);
   const [countryCode, setCountryCode] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [measurements, setMeasurements] = useState();
 
+  console.log(id);
+
   async function getCities(code) {
     const citiesURL = `https://docs.openaq.org/v2/cities?limit=10000&sort=asc&country=${code}&order_by=city`;
 
+    console.log(citiesURL);
+
     const response = await fetch(citiesURL);
     const data = await response.json();
-    setCities(data.results);
+    setCities([...data.results]);
+
+    setI(i + 1);
+
+    // console.log(data.results);
   }
 
   async function getMeasurements(country, city) {
@@ -30,8 +39,6 @@ export const CityCard = ({ countryList }) => {
     const data = await response.json();
     await setMeasurements(data.results);
   }
-
-  console.log(measurements);
 
   const countryHandler = (event) => {
     let doesExist = false;
@@ -76,11 +83,11 @@ export const CityCard = ({ countryList }) => {
           {/* Country Dropdown */}
           <Input
             size="large"
-            list="countries"
+            list={"countries" + id}
             placeholder="Choose a Country"
             onChange={countryHandler}
           />
-          <datalist id="countries">
+          <datalist id={"countries" + id}>
             {countryList.map((country) => (
               <option key={country.code} value={country.name}>
                 {country.name}
@@ -93,11 +100,11 @@ export const CityCard = ({ countryList }) => {
               <Divider />
               <Input
                 size="large"
-                list="cities"
+                list={"cities" + id}
                 placeholder="Choose a City"
                 onChange={cityHandler}
               />
-              <datalist id="cities">
+              <datalist id={"cities" + id}>
                 {cities.map((city) => (
                   <option
                     key={city.city + city.country + city.count}
