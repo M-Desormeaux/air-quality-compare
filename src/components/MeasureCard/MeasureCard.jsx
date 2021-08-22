@@ -34,10 +34,13 @@ export const MeasureCard = ({ measurements }) => {
 
   return (
     <Segment color="brown">
-      Parameters:
+      Pollutants:
       <br />
       {filteredArray.map((x) => (
-        <p key={JSON.stringify(x)}>{x.parameter}</p>
+        <Segment vertical key={JSON.stringify(x)}>
+          <h4>{x.parameter}</h4>
+          <p>{`${x.value} ${x.unit}`}</p>
+        </Segment>
       ))}
     </Segment>
   );
