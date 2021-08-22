@@ -8,28 +8,20 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { MeasureCard } from "../MeasureCard/MeasureCard";
+import { ErrorBound } from "../ErrorBound/ErrorBound";
 
-export const CityCard = ({ countryList, id }) => {
-  const [i, setI] = useState(0);
+const CityCardToHandle = ({ countryList, id }) => {
   const [cities, setCities] = useState([]);
   const [countryCode, setCountryCode] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [measurements, setMeasurements] = useState();
 
-  console.log(id);
-
   async function getCities(code) {
     const citiesURL = `https://docs.openaq.org/v2/cities?limit=10000&sort=asc&country=${code}&order_by=city`;
-
-    console.log(citiesURL);
 
     const response = await fetch(citiesURL);
     const data = await response.json();
     setCities([...data.results]);
-
-    setI(i + 1);
-
-    // console.log(data.results);
   }
 
   async function getMeasurements(country, city) {
@@ -131,3 +123,9 @@ export const CityCard = ({ countryList, id }) => {
     </Card>
   );
 };
+
+export const CityCard = ({ countryList, id }) => (
+  <ErrorBound>
+    <CityCardToHandle countryList={countryList} id={id} />
+  </ErrorBound>
+);
